@@ -1,14 +1,62 @@
 import React from 'react'
 import Header from './Header'
-import { useState } from 'react'
+import { useState,useRef } from 'react'
+import validateForm from '../utils/ValidationForm'
+import {   getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword  } from "firebase/auth";
+
 
 const Login = () => {
 
     const[isLoggedInForm,setIsLoggedInForm]=useState(true);
+    const [errmsg,setErrormsg]=useState(null);
+
+    const email=useRef(null);
+    const password=useRef(null);
 
     function handleAuth(){
         setIsLoggedInForm(!isLoggedInForm);
     }
+
+    function submitHandler(e){
+        //const auth = getAuth();
+        e.preventDefault();
+        const data=validateForm(email.current.value,password.current.value);
+        setErrormsg(data);
+        if(data) return;
+        
+        if(!isLoggedInForm){
+            const auth = getAuth();
+            createUserWithEmailAndPassword(auth,email.current.value,password.current.value)
+              .then((userCredential) => {
+                const user = userCredential.user;
+                 console.log(user);
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                 setErrormsg(errorMessage);
+               
+              });
+            
+        }else{
+            const auth = getAuth();
+             signInWithEmailAndPassword(auth, email.current.value,password.current.value)
+             .then((userCredential) => {
+    
+             const user = userCredential.user;
+             console.log(user);
+  
+             })
+               .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrormsg(errorMessage)
+        });
+
+
+        }
+    }
+
   return (
     <div>
        
@@ -18,10 +66,11 @@ const Login = () => {
        </div>
         <div className='bg-black  bg-opacity-70  w-3/12 absolute left-96  mx-auto my-32'>
             <h1 className=' mx-4 my-4 text-yellow-50  font-extrabold h-4'>{isLoggedInForm?"SignIn":"SignUp"}</h1>
-            <form className='text-white p-5'>
+            <form  onSubmit={submitHandler}  className='text-white p-5'>
                 {!isLoggedInForm && (<input className='my-2 p-2 w-full bg-gray-600 rounded-lg' placeholder='Enter Name'/>)}
-                <input className='my-2 p-2 w-full bg-gray-600 rounded-lg' placeholder='Email address'/>
-                <input className='my-2 p-2 bg-gray-600 w-full rounded-lg' placeholder='Enter Password'/>
+                <input ref={email} className='my-2 p-2 w-full bg-gray-600 rounded-lg' placeholder='Email address'/>
+                <input ref={password} className='my-2 p-2 bg-gray-600 w-full rounded-lg' placeholder='Enter Password'/>
+                <p className='text-red-700 font-thin p-2 m-2'>{errmsg}</p>
                 <button className='bg-red-800 w-full h-10 rounded-lg'>
                     {isLoggedInForm?"SignIn":"SignUp"}
                 </button>
