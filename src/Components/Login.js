@@ -5,7 +5,8 @@ import validateForm from '../utils/ValidationForm'
 import {   getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword  } from "firebase/auth";
 
 
-const Login = () => {
+const Login = ({store}) => {
+    
 
     const[isLoggedInForm,setIsLoggedInForm]=useState(true);
     const [errmsg,setErrormsg]=useState(null);
@@ -29,7 +30,7 @@ const Login = () => {
             createUserWithEmailAndPassword(auth,email.current.value,password.current.value)
               .then((userCredential) => {
                 const user = userCredential.user;
-                 console.log(user);
+
               })
               .catch((error) => {
                 const errorCode = error.code;
@@ -44,7 +45,6 @@ const Login = () => {
              .then((userCredential) => {
     
              const user = userCredential.user;
-             console.log(user);
   
              })
                .catch((error) => {
