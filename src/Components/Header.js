@@ -24,7 +24,7 @@ function clickHandler(){
 
 useEffect(()=>{
   const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
+  const unsubscribe= onAuthStateChanged(auth, (user) => {
     if (user) {
       const {uid,email,displayName}=user;
       dispatch(addUser({uid:uid,email:email,displayName:displayName}));
@@ -35,12 +35,12 @@ useEffect(()=>{
       navigate("/");
     }
   });
-     
+     return ()=>unsubscribe;
  },[])
 
 
   return (
-    <div className=' flex justify-between absolute z-10 shadow-lg w-full'>
+    <div className=' flex  justify-between  bg-gradient-to-b from-black absolute z-10  w-full '>
       <img  className ="w-40" src='https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png' alt="netflix-logo"/>
       {
          user && <button className='bg-red-800 p-3 m-3 text-white font-semibold' onClick={clickHandler}>

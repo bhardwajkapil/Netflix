@@ -3,6 +3,10 @@ import Header from './Header'
 import { API_options } from '../utils/constants';
 import { useDispatch } from 'react-redux';
 import { addNowPlayingMovies } from '../utils/movieSlice';
+import MovieContainer from './MovieContainer';
+import MovieList from './MovieList';
+
+
 
 
 
@@ -23,6 +27,9 @@ const Browse = () => {
   return (
     <div>
       <Header/>
+      <MovieContainer/>
+       <MovieList/>
+    
     </div>
   )
 }
