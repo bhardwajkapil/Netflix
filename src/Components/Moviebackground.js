@@ -30,11 +30,12 @@ const Moviebackground = ({movie_id}) => {
         {isLoading ? (
   <div>Loading movie trailer...</div>
 ) : (
-  <div className=''>
+  <div className='bg-black'>
     <iframe
       className="w-screen aspect-video"
       src={"https://www.youtube.com/embed/" + movieTrailer.key +"?&autoplay=1&mute=1"}
     ></iframe>
+   
   </div>
 )}
       </div>    

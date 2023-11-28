@@ -1,4 +1,4 @@
-
+import InfoPage from './InfoPage';
 import Login from './Login';
 import Browse from './Browse';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
@@ -17,13 +17,18 @@ const Body = () => {
       path: '/browse',
       element: <Browse />,
     },
+    {
+      path:'/browse/:id',
+      element:<InfoPage/>
+    }
+   
   ]);
 
 
   
 
   return (
-    <div className='bg-black'>
+    <div className="">
       <RouterProvider router={appRouter} />
     </div>
   );
