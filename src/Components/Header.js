@@ -7,6 +7,7 @@ import {  onAuthStateChanged } from "firebase/auth";
 import { addUser, removeUser } from '../utils/userSlice';
 import { useDispatch } from 'react-redux';
 import { setViewGptPage } from '../utils/gptSlice';
+import Faviourate from './Faviourate';
 
 const Header = () => {
   const navigate=useNavigate();
@@ -46,19 +47,20 @@ useEffect(()=>{
 
 
   return (
-    <div className=' flex  justify-between  bg-gradient-to-b from-black absolute z-10  w-full '>
-      <img  className ="w-40" src='https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png' alt="netflix-logo"/>
+    <div className=' justify-between flex   bg-gradient-to-b from-black absolute z-10  w-full '>
+      <img  className ="w-40 mr-11" src='https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png' alt="netflix-logo"/>
+      <div>
       {
-         user && <div>
-          <button className='p-3 m-3 bg-purple-800' onClick={handleGptView}>{viewGptPage?"Home Page":"GPT Search"}</button>
+         user && <div className='flex justify-between'>
+          <Faviourate/>
+          <button className='p-3 mx-10 bg-purple-800' onClick={handleGptView}>{viewGptPage?"Home Page":"GPT Search "}</button>
           <button className='bg-yellow-800 p-3 m-3 hover:bg-red-600 text-white font-semibold' onClick={clickHandler}>
         SIGNOUT
        </button>
-
          </div>
-         
-
       }
+      </div>
+     
         
     </div>
   )

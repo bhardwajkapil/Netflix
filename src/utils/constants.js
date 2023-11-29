@@ -8,3 +8,5 @@
 
 
   export const IMG_CDN="https://image.tmdb.org/t/p/w500"
+
+  export const OPENAI_KEY="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"

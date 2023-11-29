@@ -14,17 +14,27 @@ const InfoPage = () => {
   const navigate=useNavigate();
   const [movieDetails,setMovieDetails]=useState(null);
  // console.log(id);
-  useEffect(() => {
-    async function getMovieTrailer() {
+ useEffect(() => {
+  async function getMovieTrailer() {
+    try {
       const data = await fetch('https://api.themoviedb.org/3/movie/'+ id +'/videos?language=en-US', API_options);
       const json = await data.json();
       const filterData = json.results.filter((data) => data.type === "Trailer");
-     // console.log(filterData);
-      setTrailerKey(filterData[0].key);
+
+      if (filterData.length > 0 && filterData[0].key) {
+        setTrailerKey(filterData[0].key);
+      } else {
+        console.error("No trailer key found.");
+        // Handle the case when no trailer is available, e.g., show a message or set a default trailer key.
+      }
+    } catch (error) {
+      console.error("Error fetching trailer data:", error);
+      // Handle the error, e.g., show an error message to the user.
     }
-  
-    getMovieTrailer();
-  }, []);
+  }
+
+  getMovieTrailer();
+}, [id]);
   
 
   useEffect(() => {
@@ -33,8 +43,8 @@ const InfoPage = () => {
       const json = await data.json();
       console.log(json);
       setMovieDetails(json);
-      console.log(movieDetails);
-      //setTrailerKey(filterData[0].key);
+      //console.log(movieDetails);
+      
     }
   
     getMovieDetails();
